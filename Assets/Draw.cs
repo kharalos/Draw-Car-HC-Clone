@@ -9,13 +9,13 @@ public class Draw : MonoBehaviour
     public LineRenderer drawLineRenderer;
     public List<Vector2> touchPositions;
     public Camera mainCam;
-    private float sWidth, sHeight;
+
+    private bool isDrawing;
 
     void Start()
     {
         mainCam = Camera.main;
-        sWidth = Screen.width;
-        sHeight = Screen.height;
+        isDrawing = false;
     }
 
     void Update()
@@ -36,25 +36,38 @@ public class Draw : MonoBehaviour
                 }
             }
         }
-        if (Input.touches.Length > 0)
+        if (Input.touches.Length > 0 && isDrawing)
         {
             if (Input.touches[0].phase == TouchPhase.Ended || Input.touches[0].phase == TouchPhase.Canceled)
             {
                 // Send data to 3D Drawer
+                SendAnchorPos();
                 Debug.Log("Data sent.");
                 Destroy(currentLine);
             }
         }
-        else if (Input.GetMouseButtonUp(0))
+        else if (Input.GetMouseButtonUp(0) && isDrawing)
         {
+
             // Send data to 3D Drawer
+            SendAnchorPos();
             Debug.Log("Data sent.");
             Destroy(currentLine);
         }
     }
 
+    private void SendAnchorPos()
+    {
+        isDrawing = false;
+        drawLineRenderer = currentLine.GetComponent<LineRenderer>();
+        Vector3[] anchorPositions = new Vector3[drawLineRenderer.positionCount];
+        drawLineRenderer.GetPositions(anchorPositions);
+        FindObjectOfType<PlayerCar>().GetAnchors(anchorPositions);
+    }
+
     private void DrawLine()
     {
+        isDrawing = true;
         currentLine = Instantiate(linePrefab, Vector3.zero, Quaternion.identity);
         drawLineRenderer = currentLine.GetComponent<LineRenderer>();
         touchPositions.Clear();
