@@ -63,6 +63,14 @@ public class Draw : MonoBehaviour
         Vector3[] anchorPositions = new Vector3[drawLineRenderer.positionCount];
         drawLineRenderer.GetPositions(anchorPositions);
         FindObjectOfType<PlayerCar>().GetAnchors(anchorPositions);
+        SplineMesh.Spline spline = FindObjectOfType<SplineMesh.Spline>();
+        for (int i = 0; i < anchorPositions.Length; i++)
+        {
+            SplineMesh.SplineNode node = new SplineMesh.SplineNode(anchorPositions[i] , Vector3.zero);
+
+            spline.AddNode(node);
+        }
+        spline.RefreshCurves();
     }
 
     private void DrawLine()

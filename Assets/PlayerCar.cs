@@ -27,7 +27,7 @@ public class PlayerCar : MonoBehaviour
 
         for (int i = 0; i < newAnchors.Length; i++)
         {
-            Debug.Log(newAnchors[i]);
+            Debug.Log("Total Anchor Number is "+newAnchors.Length);
         }
 
         newMesh = new Mesh();
