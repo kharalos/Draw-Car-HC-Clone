@@ -69,6 +69,19 @@ namespace SplineMesh {
             UpdateAfterCurveChanged();
         }
 
+        public void FullReset(SplineNode node1, SplineNode node2)
+        {
+            nodes.Clear();
+            curves.Clear();
+            AddNode(node1);
+            AddNode(node2);
+            RaiseNodeListChanged(new ListChangedEventArgs<SplineNode>()
+            {
+                type = ListChangeType.clear
+            });
+            UpdateAfterCurveChanged();
+        }
+
         private void OnEnable() {
             RefreshCurves();
         }

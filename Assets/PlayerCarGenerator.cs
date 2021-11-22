@@ -17,7 +17,7 @@ public class PlayerCarGenerator : MonoBehaviour
     private Generated generated;
     public void GetTheMeshes()
     {
-        Array.Clear(meshesToCombine, 0, meshesToCombine.Length);
+        /*Array.Clear(meshesToCombine, 0, meshesToCombine.Length);
 
         int i = 0;
 
@@ -26,37 +26,33 @@ public class PlayerCarGenerator : MonoBehaviour
             meshesToCombine[i] = segMeshFilter.mesh;
 
             i++;
-        }
+        }*/
         CombineTheMeshes();
     }
 
-    private void Update()
-    {
-        if (Input.GetButtonDown("Fire1"))
-        {
-            CombineTheMeshes();
-            Debug.Log("Mesh Combined");
-        }
-    }
 
     void CombineTheMeshes()
     {
-        transform.GetComponent<MeshFilter>().mesh = new Mesh();
+        var objectMesh = transform.GetComponent<MeshFilter>().mesh;
+        objectMesh = new Mesh();
         MeshFilter[] meshFilters = GetComponentsInChildren<MeshFilter>();
         CombineInstance[] combine = new CombineInstance[meshFilters.Length];
 
-        int i = 0;
+        int i = 2;
         while (i < meshFilters.Length)
         {
             combine[i].mesh = meshFilters[i].sharedMesh;
             combine[i].transform = meshFilters[i].transform.localToWorldMatrix;
+            meshFilters[i].transform.GetComponent<MeshRenderer>().enabled = false;
 
             i++;
         }
-        transform.GetComponent<MeshFilter>().mesh = new Mesh();
-        transform.GetComponent<MeshFilter>().mesh.CombineMeshes(combine);
+        objectMesh = new Mesh();
+        objectMesh.CombineMeshes(combine);
 
-        generated.GetMesh(transform.GetComponent<MeshFilter>().mesh);
+        generated.GetMesh(objectMesh);
+
+        objectMesh = new Mesh();
 
     }
 

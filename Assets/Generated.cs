@@ -18,5 +18,7 @@ public class Generated : MonoBehaviour
 
         meshFilter.mesh = combinedMesh;
         meshCollider.sharedMesh = combinedMesh;
+
+        //meshFilter.mesh.Optimize();
     }
 }

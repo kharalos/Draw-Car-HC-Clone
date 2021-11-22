@@ -98,7 +98,7 @@ namespace SplineMesh {
         }
 
 
-        private void SmoothAll() {
+        public void SmoothAll() {
             foreach(var node in Spline.nodes) {
                 SmoothNode(node);
             }
