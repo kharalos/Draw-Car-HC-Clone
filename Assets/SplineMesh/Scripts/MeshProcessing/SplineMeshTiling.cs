@@ -88,12 +88,14 @@ namespace SplineMesh {
                     var go = FindOrCreate("segment " + i++ + " mesh");
                     go.GetComponent<MeshBender>().SetInterval(curve);
                     go.GetComponent<MeshCollider>().enabled = generateCollider;
+                    go.GetComponent<MeshCollider>().convex = true;
                     used.Add(go);
                 }
             } else {
                 var go = FindOrCreate("segment 1 mesh");
                 go.GetComponent<MeshBender>().SetInterval(spline, 0);
                 go.GetComponent<MeshCollider>().enabled = generateCollider;
+                go.GetComponent<MeshCollider>().convex = true;
                 used.Add(go);
             }
 
@@ -121,6 +123,7 @@ namespace SplineMesh {
             }
             res.GetComponent<MeshRenderer>().material = material;
             res.GetComponent<MeshCollider>().material = physicMaterial;
+            res.GetComponent<MeshCollider>().convex = true;
             MeshBender mb = res.GetComponent<MeshBender>();
             mb.Source = SourceMesh.Build(mesh)
                 .Translate(translation)
